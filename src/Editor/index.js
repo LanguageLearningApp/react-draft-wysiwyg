@@ -329,6 +329,7 @@ class WysiwygEditor extends Component {
       'customDecorators',
       'handlePastedText',
       'customStyleMap',
+      'canHandleKeyCommand',
     ]);
 
   getStyleMap = props => ({ ...getCustomStyleMap(), ...props.customStyleMap });
@@ -356,7 +357,7 @@ class WysiwygEditor extends Component {
       editorState,
       toolbar: { inline },
     } = this.state;
-    if (inline && inline.options.indexOf(command) >= 0) {
+    if (inline && inline.options.indexOf(command) >= 0 && (this.props.canHandleKeyCommand === undefined || this.props.canHandleKeyCommand(command))) {
       const newState = RichUtils.handleKeyCommand(editorState, command);
       if (newState) {
         this.onChange(newState);
